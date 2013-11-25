@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
-require 'pry'
 
 SUITS = ['♠', '♣', '♥', '♦']
 VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
@@ -41,35 +40,34 @@ def hide_d_hand(d_hand)
   shown
 end
 
-def ace_method(score, hand)
-  hand.each do |card|
-    if card == "A"
-      if (11 + score) > 21
-        score += 1
-      else
-        score += 11
-      end
+def ace_method(score, hand, index)
+  hand.each_with_index do |card, hand_index|
+    next if index == hand_index
+    if card.include?("A")
+      ace_method
     end
   end
-  score
+  if (11 + score) > 21
+    score -= 10
+  else
+    score += 11
+  end
 end
 
 def sum(hand)
   score = 0
-  hand.each do |card|
+  hand.each_with_index do |card, index|
     if card.include?("X")
       score
     elsif card.include?("A")
-      score
+      score += ace_method(score, hand, index)
     elsif card.to_i == 0
       score += 10
     else
       score += card.to_i
     end
-    ace_method(score, hand)
   end
   score
-   binding.pry
 end
 
 deck = build_deck
@@ -80,16 +78,20 @@ p_hand = []
 #Player and dealer get their cards
 deal_hand(deck, p_hand, d_hand)
 
+p_score = 0
+d_score = 0
 
 puts "player hand: #{p_hand}: #{sum(p_hand)}"
 puts "dealer hand: #{d_hand}: #{sum(d_hand)}"
 puts "hidden dealer hand: #{hide_d_hand(d_hand)}: #{sum(hide_d_hand(d_hand))}"
+puts
+puts
 
 d_hand << new_card(deck)
 
+
+
 puts "player hand: #{p_hand}: #{sum(p_hand)}"
 puts "dealer hand: #{d_hand}: #{sum(d_hand)}"
 puts "hidden dealer hand: #{hide_d_hand(d_hand)}: #{sum(hide_d_hand(d_hand))}"
-
-
 puts
