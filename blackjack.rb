@@ -46,34 +46,39 @@ end
 
 def ace_method(score, hand)
   hand.each do |card|
-    if card == "A"
-      if (11 + score) > 21
-        score += 1
-      else
-        score += 11
-      end
+  if card.split('').first == "A"
+    if @score + 11 > 21
+      @score += 1
+    else
+      @score += 11
     end
   end
-  score
+end
+  @score
 end
 
 def sum(hand)
-  score = 0
+  @score = 0
   hand.each do |card|
     if card.include?("X")
-      score
+      @score
     elsif card.include?("A")
-      score
+      ace_method(@score, hand)
+      @score
     elsif card.to_i == 0
-      score += 10
-    else
-      score += card.to_i
+      @score += 10
+    elsif
+      @score += card.to_i
     end
-    ace_method(score, hand)
   end
-  score
-   binding.pry
+  @score
 end
+
+def hit(hand, deck)
+  hand << new_card(deck)
+end
+
+
 
 deck = build_deck
 
@@ -83,16 +88,17 @@ p_hand = []
 #Player and dealer get their cards
 deal_hand(deck, p_hand, d_hand)
 
-
+puts "===== Welcome to Blackjack ====="
 puts "player hand: #{p_hand}: #{sum(p_hand)}"
-puts "dealer hand: #{d_hand}: #{sum(d_hand)}"
-puts "hidden dealer hand: #{hide_d_hand(d_hand)}: #{sum(hide_d_hand(d_hand))}"
-
-d_hand << new_card(deck)
-
-puts "player hand: #{p_hand}: #{sum(p_hand)}"
-puts "dealer hand: #{d_hand}: #{sum(d_hand)}"
-puts "hidden dealer hand: #{hide_d_hand(d_hand)}: #{sum(hide_d_hand(d_hand))}"
-
-
 puts
+puts "hidden dealer hand: #{hide_d_hand(d_hand)}: #{sum(hide_d_hand(d_hand))}"
+puts
+begin
+puts "Would you like to HIT or STAY ('h' or 's')"
+player_action = gets.chomp
+ player_action == 'h'
+  hit(p_hand, deck)
+end until player_action == 's'
+
+puts  "player hand: #{p_hand}: #{sum(p_hand)}"
+puts "dealer hand: #{d_hand}: #{sum(d_hand)}"
