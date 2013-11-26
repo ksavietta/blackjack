@@ -10,7 +10,7 @@ def build_deck
 
   SUITS.each do |suit|
     VALUES.each do |value|
-      deck.push(value + suit)
+      deck << PlayingCard.new(value, suit)
     end
   end
   deck.shuffle
