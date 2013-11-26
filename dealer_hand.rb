@@ -10,6 +10,11 @@ class Dealer
     score = 0
     @hand.each do |card|
       score += PointCalculation.new(card).value
+      end
+      @hand.each do |card|
+        if card.ace? && score + 10 < 21
+          score += 10
+        end
     end
     score
   end

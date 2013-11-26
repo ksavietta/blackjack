@@ -1,4 +1,5 @@
 class PointCalculation
+
   def initialize(playing_card)
     @playing_card =  playing_card
   end
@@ -12,6 +13,7 @@ class PointCalculation
      @playing_card.rank.to_i
     end
   end
+
   # hand.each do |card|
   # if card.split('').first == "A"
   #   if score + 11 > 21
@@ -22,5 +24,9 @@ class PointCalculation
   # end
 
   # score
+
+
+
+
 
 end
