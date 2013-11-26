@@ -24,20 +24,20 @@ def new_card(deck)
   deck.pop
 end
 
-def deal_hand(deck, p_hand, d_hand)
+def deal_hand(deck, player, dealer)
   dealer_card1 = deck.pop
   dealer_card2 = deck.pop
   player_card1 = deck.pop
   player_card2 = deck.pop
-  d_hand << dealer_card1
-  d_hand << dealer_card2
-  p_hand << player_card1
-  p_hand << player_card2
+  dealer << dealer_card1
+  dealer << dealer_card2
+  player << player_card1
+  player << player_card2
 end
 
-def hide_d_hand(d_hand)
+def hide_dealer(dealer)
   shown = ["X"]
-  d_hand.each_with_index do |card, index|
+  dealer.each_with_index do |card, index|
     next if index == 0
     shown.unshift(card)
   end
@@ -47,31 +47,31 @@ end
 def ace_method(score, hand)
   hand.each do |card|
   if card.split('').first == "A"
-    if @score + 11 > 21
-      @score += 1
+    if score + 11 > 21
+      score += 1
     else
-      @score += 11
+      score += 11
     end
   end
 end
-  @score
+  score
 end
 
 def sum(hand)
-  @score = 0
+  score = 0
   hand.each do |card|
     if card.include?("X")
-      @score
+      score
     elsif card.include?("A")
-      ace_method(@score, hand)
-      @score
+      ace_method(score, hand)
+      score
     elsif card.to_i == 0
-      @score += 10
+      score += 10
     elsif
-      @score += card.to_i
+      score += card.to_i
     end
   end
-  @score
+  score
 end
 
 def hit(hand, deck)
@@ -82,23 +82,23 @@ end
 
 deck = build_deck
 
-d_hand = []
-p_hand = []
+dealer = []
+player = []
 
 #Player and dealer get their cards
-deal_hand(deck, p_hand, d_hand)
+deal_hand(deck, player, dealer)
 
 puts "===== Welcome to Blackjack ====="
-puts "player hand: #{p_hand}: #{sum(p_hand)}"
+puts "player hand: #{player}: #{sum(player)}"
 puts
-puts "hidden dealer hand: #{hide_d_hand(d_hand)}: #{sum(hide_d_hand(d_hand))}"
+puts "hidden dealer hand: #{hide_dealer(dealer)}: #{sum(hide_dealer(dealer))}"
 puts
 begin
 puts "Would you like to HIT or STAY ('h' or 's')"
 player_action = gets.chomp
  player_action == 'h'
-  hit(p_hand, deck)
+  hit(player, deck)
 end until player_action == 's'
 
-puts  "player hand: #{p_hand}: #{sum(p_hand)}"
-puts "dealer hand: #{d_hand}: #{sum(d_hand)}"
+puts  "player hand: #{player}: #{sum(player)}"
+puts "dealer hand: #{dealer}: #{sum(dealer)}"

@@ -2,6 +2,7 @@ class PlayingCard
   SUITS = ['♠', '♣', '♥', '♦']
   VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
+  attr_accessor :rank, :suit
 
   def initialize(rank, suit)
     @rank = rank
@@ -12,11 +13,8 @@ class PlayingCard
     ['J', 'Q', 'K'].include?(@rank)
   end
 
-  def rank
-    @rank
+  def ace?
+    ['A'].include?(@rank)
   end
 
-  def suit
-    @suit
-  end
 end
