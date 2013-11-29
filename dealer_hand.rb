@@ -24,7 +24,7 @@ class Dealer
   end
 
   def hidden_hand
-    shown_hand = ["X"]
+    shown_hand = ["-"]
     @hand.each_with_index do |card, index|
       next if index == 0
       shown_hand.unshift(card.rank + card.suit)
